@@ -44,7 +44,7 @@ func main() {
 
 	result2 := db.Create(&product2)
 	if result2.Error != nil {
-		log.Fatal(result.Error)
+		log.Fatal(result2.Error)
 	}
 	fmt.Printf("Created product: %+v\n", product2)
 
@@ -55,6 +55,22 @@ func main() {
 		log.Fatal(result3.Error)
 	}
 	fmt.Printf("Created person: %+v\n", person)
+
+	// Fetch all products
+	var allProducts []Product
+	db.Find(&allProducts)
+	fmt.Println("All Products:")
+	for _, p := range allProducts {
+		fmt.Printf("%+v\n", p)
+	}
+
+	// Fetch all persons
+	var allPersons []Person
+	db.Find(&allPersons)
+	fmt.Println("All Persons:")
+	for _, p := range allPersons {
+		fmt.Printf("%+v\n", p)
+	}
 
 	// Read Product
 	var fetchedProduct Product

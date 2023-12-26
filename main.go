@@ -40,7 +40,7 @@ func main() {
 	if result2.Error != nil {
 		log.Fatal(result.Error)
 	}
-	fmt.Printf("Created product: %+v\n", product)
+	fmt.Printf("Created product: %+v\n", product2)
 	// Read
 	var fetchedProduct Product
 	result = db.First(&fetchedProduct, product.ID)

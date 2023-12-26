@@ -14,6 +14,11 @@ type Product struct {
 	Price uint
 }
 
+type Person struct {
+	Name string
+	Age  int
+}
+
 func main() {
 	dsn := "user=rishi dbname=test_gorm password=1111 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -21,10 +26,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = db.AutoMigrate(&Product{})
+	err = db.AutoMigrate(&Product{}, &Person{})
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	// CRUD Operations
 
 	// Create
@@ -41,7 +47,16 @@ func main() {
 		log.Fatal(result.Error)
 	}
 	fmt.Printf("Created product: %+v\n", product2)
-	// Read
+
+	// Create person
+	person := Person{Name: "Rishi", Age: 21}
+	result3 := db.Create(&person)
+	if result3.Error != nil {
+		log.Fatal(result3.Error)
+	}
+	fmt.Printf("Created person: %+v\n", person)
+
+	// Read Product
 	var fetchedProduct Product
 	result = db.First(&fetchedProduct, product.ID)
 	if result.Error != nil {
@@ -49,16 +64,22 @@ func main() {
 	}
 	fmt.Printf("Found product: %+v\n", fetchedProduct)
 
+	// Read Person
+	var fetchedPerson Person
+	result = db.First(&fetchedPerson, "name = ?", person.Name)
+	if result.Error != nil {
+		log.Fatal(result.Error)
+	}
+	fmt.Printf("Found person: %+v\n", fetchedPerson)
+
 	// Update
 	db.Model(&fetchedProduct).Update("Price", 1200)
 	fmt.Printf("Updated product: %+v\n", fetchedProduct)
 
-	// Delete
 	// Delete
 	result = db.Delete(&fetchedProduct)
 	if result.Error != nil {
 		log.Fatal(result.Error)
 	}
 	fmt.Printf("Deleted product: %+v\n", fetchedProduct)
-
 }

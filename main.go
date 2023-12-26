@@ -59,5 +59,6 @@ func main() {
 	if result.Error != nil {
 		log.Fatal(result.Error)
 	}
+	fmt.Printf("Deleted product: %+v\n", fetchedProduct)
 
 }

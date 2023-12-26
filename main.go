@@ -9,7 +9,7 @@ import (
 )
 
 type Product struct {
-	gorm.Model
+	ID    uint
 	Name  string
 	Price uint
 }
@@ -54,10 +54,10 @@ func main() {
 	fmt.Printf("Updated product: %+v\n", fetchedProduct)
 
 	// Delete
+	// Delete
 	result = db.Delete(&fetchedProduct)
 	if result.Error != nil {
 		log.Fatal(result.Error)
 	}
-	fmt.Println("Deleted product:", fetchedProduct)
 
 }
